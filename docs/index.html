@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Роскомнадзор — GitHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --md-primary: #1976d2;
+            --md-primary-dark: #1565c0;
+            --md-primary-light: #42a5f5;
+            --md-accent: #ff4081;
+            --md-accent-light: #ff79b0;
+            --md-error: #d32f2f;
+            --md-warning: #f57c00;
+            --md-success: #388e3c;
+            --md-bg: #fafafa;
+            --md-surface: #ffffff;
+            --md-elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --md-elevation-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            --md-elevation-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            --md-ripple: rgba(255,255,255,0.3);
+            --rkn-red: #c62828;
+            --rkn-red-dark: #8e0000;
+            --rkn-red-light: #ef5350;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--md-bg);
+            color: #212121;
+            overflow-x: hidden;
+        }
+
+        .app-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 64px;
+            background: var(--rkn-red);
+            box-shadow: var(--md-elevation-2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .app-bar.scrolled {
+            height: 56px;
+            box-shadow: var(--md-elevation-3);
+        }
+
+        .app-bar .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .app-bar .logo i {
+            font-size: 28px;
+            animation: pulse-logo 2s infinite;
+        }
+
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .app-bar .nav-links {
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+        }
+
+        .app-bar .nav-links a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-bar .nav-links a:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .app-bar .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            width: 0; height: 2px;
+            background: white;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        .app-bar .nav-links a:hover::after {
+            width: 80%;
+        }
+
+        .hero {
+            margin-top: 64px;
+            min-height: 60vh;
+            background: linear-gradient(135deg, var(--rkn-red-dark) 0%, var(--rkn-red) 50%, var(--rkn-red-light) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero .badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 16px;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .md-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: var(--md-elevation-1);
+        }
+
+        .md-btn:hover {
+            box-shadow: var(--md-elevation-2);
+            transform: translateY(-1px);
+        }
+
+        .md-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--md-elevation-1);
+        }
+
+        .md-btn-primary {
+            background: white;
+            color: var(--rkn-red);
+        }
+
+        .md-btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .md-btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            opacity: 0.1;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            color: white;
+            animation: float-particle linear infinite;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stats-bar {
+            background: var(--md-surface);
+            box-shadow: var(--md-elevation-1);
+            padding: 32px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            padding: 0 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            background: rgba(0,0,0,0.02);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--rkn-red);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #757575;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 300;
+            color: #212121;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--rkn-red);
+        }
+
+        .section-subtitle {
+            color: #757575;
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .md-card {
+            background: var(--md-surface);
+            border-radius: 12px;
+            box-shadow: var(--md-elevation-1);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .md-card:hover {
+            box-shadow: var(--md-elevation-3);
+            transform: translateY(-4px);
+        }
+
+        .md-card .card-header {
+            padding: 20px 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .md-card .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .md-card .card-icon.red { background: var(--rkn-red); }
+        .md-card .card-icon.blue { background: var(--md-primary); }
+        .md-card .card-icon.orange { background: var(--md-warning); }
+        .md-card .card-icon.green { background: var(--md-success); }
+        .md-card .card-icon.pink { background: var(--md-accent); }
+        .md-card .card-icon.purple { background: #7b1fa2; }
+
+        .md-card .card-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #212121;
+        }
+
+        .md-card .card-subtitle {
+            font-size: 13px;
+            color: #757575;
+        }
+
+        .md-card .card-body {
+            padding: 16px 20px 20px;
+            color: #616161;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .md-card .card-actions {
+            padding: 8px 12px 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .md-card .card-actions .md-btn-text {
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--rkn-red);
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .md-card .card-actions .md-btn-text:hover {
+            background: rgba(198, 40, 40, 0.08);
+        }
+
+        .scanner-section {
+            background: var(--md-surface);
+            border-radius: 16px;
+            box-shadow: var(--md-elevation-2);
+            padding: 32px;
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scanner-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--rkn-red), var(--md-accent), var(--md-primary), var(--md-success));
+            background-size: 300% 100%;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .scanner-input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .md-input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .md-input:focus {
+            border-color: var(--rkn-red);
+            box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.1);
+        }
+
+        .md-input::placeholder {
+            color: #bdbdbd;
+        }
+
+        .scanner-results {
+            display: none;
+        }
+
+        .scanner-results.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .scan-log {
+            background: #263238;
+            color: #aed581;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            line-height: 1.8;
+        }
+
+        .scan-log .log-line {
+            opacity: 0;
+            animation: typeIn 0.1s ease forwards;
+        }
+
+        @keyframes typeIn {
+            to { opacity: 1; }
+        }
+
+        .scan-log .log-time { color: #90a4ae; }
+        .scan-log .log-info { color: #64b5f6; }
+        .scan-log .log-warn { color: #ffb74d; }
+        .scan-log .log-error { color: #ef5350; }
+        .scan-log .log-success { color: #81c784; }
+
+        .scan-verdict {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            animation: fadeInUp 0.5s ease 0.5s both;
+        }
+
+        .scan-verdict.blocked {
+            background: rgba(211, 47, 47, 0.08);
+            border: 1px solid rgba(211, 47, 47, 0.2);
+        }
+
+        .scan-verdict.safe {
+            background: rgba(56, 142, 60, 0.08);
+            border: 1px solid rgba(56, 142, 60, 0.2);
+        }
+
+        .scan-verdict .verdict-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .scan-verdict.blocked .verdict-icon {
+            background: var(--md-error);
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .scan-verdict.safe .verdict-icon {
+            background: var(--md-success);
+            color: white;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .scan-verdict .verdict-text h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .scan-verdict .verdict-text p {
+            color: #757575;
+            font-size: 14px;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-container.active {
+            display: block;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #757575;
+            margin-bottom: 8px;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--rkn-red), var(--md-accent));
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .rules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--md-surface);
+            border-radius: 12px;
+            box-shadow: var(--md-elevation-1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .rule-item:hover {
+            box-shadow: var(--md-elevation-2);
+            transform: translateX(4px);
+        }
+
+        .rule-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--rkn-red);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .rule-content h4 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #212121;
+        }
+
+        .rule-content p {
+            font-size: 14px;
+            color: #757575;
+            line-height: 1.5;
+        }
+
+        .blocked-repos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .repo-card {
+            background: var(--md-surface);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--md-elevation-1);
+            border-left: 4px solid var(--md-error);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .repo-card:hover {
+            box-shadow: var(--md-elevation-2);
+            transform: translateY(-2px);
+        }
+
+        .repo-card .repo-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .repo-card .repo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(211, 47, 47, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--md-error);
+            font-size: 18px;
+        }
+
+        .repo-card .repo-name {
+            font-weight: 500;
+            color: #212121;
+            font-size: 15px;
+        }
+
+        .repo-card .repo-reason {
+            font-size: 13px;
+            color: #757575;
+            line-height: 1.5;
+        }
+
+        .repo-card .repo-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .repo-badge.banned {
+            background: rgba(211, 47, 47, 0.1);
+            color: var(--md-error);
+        }
+
+        .repo-badge.warning {
+            background: rgba(245, 124, 0, 0.1);
+            color: var(--md-warning);
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .faq-item {
+            background: var(--md-surface);
+            border-radius: 12px;
+            box-shadow: var(--md-elevation-1);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--md-elevation-2);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 15px;
+            color: #212121;
+            transition: all 0.2s;
+        }
+
+        .faq-question:hover {
+            background: rgba(0,0,0,0.02);
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+            color: #757575;
+        }
+
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding: 0 24px 20px;
+        }
+
+        .faq-answer p {
+            color: #616161;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer {
+            background: #212121;
+            color: rgba(255,255,255,0.7);
+            padding: 48px 24px 24px;
+            margin-top: 48px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand i {
+            color: var(--rkn-red-light);
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            padding: 6px 0;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 32px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .footer-bottom .heart {
+            color: var(--md-accent);
+            animation: heartbeat 1.5s ease infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: #323232;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            box-shadow: var(--md-elevation-3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: toastIn 0.4s ease, toastOut 0.4s ease 2.6s forwards;
+            pointer-events: auto;
+            min-width: 280px;
+        }
+
+        .toast i {
+            font-size: 20px;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(20px); }
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--rkn-red);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--md-elevation-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        }
+
+        @media (max-width: 768px) {
+            .stats-container { grid-template-columns: repeat(2, 1fr); }
+            .footer-content { grid-template-columns: 1fr; gap: 24px; }
+            .hero h1 { font-size: 36px; }
+            .app-bar .nav-links { display: none; }
+            .scanner-input-group { flex-direction: column; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <nav class="app-bar" id="appBar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>Роскомнадзор</span>
+        </div>
+        <div class="nav-links">
+            <a href="#scanner">Сканер</a>
+            <a href="#rules">Правила</a>
+            <a href="#blocked">Блокировки</a>
+            <a href="#faq">FAQ</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="particles" id="particles"></div>
+        <div class="badge">
+            <i class="fab fa-github"></i> Теперь и на GitHub
+        </div>
+        <h1>Роскомнадзор</h1>
+        <p class="subtitle">Мы пришли на GitHub, чтобы проверить ваши репозитории, коммиты и мемы на соответствие законодательству. Никакого запрещённого контента — только чистый, лицензированный код!</p>
+        <div class="cta-group">
+            <a href="#scanner" class="md-btn md-btn-primary">
+                <i class="fas fa-search"></i> Проверить репозиторий
+            </a>
+            <a href="#rules" class="md-btn md-btn-outline">
+                <i class="fas fa-book"></i> Правила
+            </a>
+        </div>
+    </section>
+
+    <div class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number" id="statRepos">0</div>
+                <div class="stat-label">Репозиториев проверено</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="statBlocked">0</div>
+                <div class="stat-label">Заблокировано</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="statMemes">0</div>
+                <div class="stat-label">Мемов удалено</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="statVPN">0</div>
+                <div class="stat-label">VPN найдено</div>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section class="reveal">
+            <h2 class="section-title">
+                <i class="fas fa-cogs"></i>
+                Наши услуги
+            </h2>
+            <p class="section-subtitle">Полный спектр проверки контента на GitHub</p>
+
+            <div class="cards-grid">
+                <div class="md-card">
+                    <div class="card-header">
+                        <div class="card-icon red"><i class="fas fa-ban"></i></div>
+                        <div>
+                            <div class="card-title">Блокировка репозиториев</div>
+                            <div class="card-subtitle">Мгновенный бан</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Обнаружили подозрительный код? Мы заблокируем репозиторий быстрее, чем вы скажете "git push". Поддерживаем блокировку по IP, домену и настроению.
+                    </div>
+                    <div class="card-actions">
+                        <button class="md-btn-text" onclick="showToast('Функция в разработке', 'info')">Подробнее</button>
+                    </div>
+                </div>
+
+                <div class="md-card">
+                    <div class="card-header">
+                        <div class="card-icon blue"><i class="fas fa-search"></i></div>
+                        <div>
+                            <div class="card-title">Сканер кода</div>
+                            <div class="card-subtitle">AI-powered анализ</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Наш продвинутый сканер проверяет каждый коммит на наличие запрещённых слов, неправильных политических взглядов и кода, который слишком хорошо работает.
+                    </div>
+                    <div class="card-actions">
+                        <button class="md-btn-text" onclick="showToast('Сканер запущен!', 'success')">Запустить</button>
+                    </div>
+                </div>
+
+                <div class="md-card">
+                    <div class="card-header">
+                        <div class="card-icon orange"><i class="fas fa-magic"></i></div>
+                        <div>
+                            <div class="card-title">Удаление мемов</div>
+                            <div class="card-subtitle">С известными людьми</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Мемы с известными людьми нарушают закон о персональных данных. Мы автоматически заменяем все мемы на официальные портреты из Википедии.
+                    </div>
+                    <div class="card-actions">
+                        <button class="md-btn-text" onclick="showToast('Все мемы удалены!', 'error')">Удалить мемы</button>
+                    </div>
+                </div>
+
+                <div class="md-card">
+                    <div class="card-header">
+                        <div class="card-icon green"><i class="fas fa-network-wired"></i></div>
+                        <div>
+                            <div class="card-title">Поиск VPN</div>
+                            <div class="card-subtitle">В коде и issues</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Обнаруживаем упоминания VPN, прокси и обходных технологий в коде, комментариях и даже в названиях веток. Нет места анонимности!
+                    </div>
+                    <div class="card-actions">
+                        <button class="md-btn-text" onclick="showToast('VPN не найдены... пока', 'success')">Сканировать</button>
+                    </div>
+                </div>
+
+                <div class="md-card">
+                    <div class="card-header">
+                        <div class="card-icon pink"><i class="fas fa-file-contract"></i></div>
+                        <div>
+                            <div class="card-title">Проверка лицензий</div>
+                            <div class="card-subtitle">Только GPL-2 и проприетарные</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Мы проверяем, что в вашем репозитории только одобренные лицензии. MIT? Слишком либерально. AGPL? Слишком свободно. Только проверенные варианты.
+                    </div>
+                    <div class="card-actions">
+                        <button class="md-btn-text" onclick="showToast('Лицензия отклонена', 'error')">Проверить</button>
+                    </div>
+                </div>
+
+                <div class="md-card">
+                    <div class="card-header">
+                        <div class="card-icon purple"><i class="fas fa-user-secret"></i></div>
+                        <div>
+                            <div class="card-title">Ручная модерация</div>
+                            <div class="card-subtitle">24/7 без выходных</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Наша команда модераторов вручную проверяет каждый pull request. Да, даже ваш "fix typo". Особенно ваш "fix typo".
+                    </div>
+                    <div class="card-actions">
+                        <button class="md-btn-text" onclick="showToast('PR отклонён', 'error')">Отправить PR</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="scanner-section reveal" id="scanner">
+            <h2 class="section-title">
+                <i class="fas fa-radar"></i>
+                Сканер репозитория
+            </h2>
+            <p class="section-subtitle">Введите URL репозитория для мгновенной проверки</p>
+
+            <div class="scanner-input-group">
+                <input type="text" class="md-input" id="repoInput" placeholder="https://github.com/username/repo или username/repo">
+                <button class="md-btn md-btn-primary" onclick="startScan()" style="background: var(--rkn-red); color: white;">
+                    <i class="fas fa-play"></i> Сканировать
+                </button>
+            </div>
+
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-label">
+                    <span id="progressText">Инициализация сканера...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <div class="scanner-results" id="scannerResults">
+                <div class="scan-log" id="scanLog"></div>
+                <div class="scan-verdict" id="scanVerdict"></div>
+            </div>
+        </section>
+
+        <section class="reveal" id="rules">
+            <h2 class="section-title">
+                <i class="fas fa-gavel"></i>
+                Правила GitHub от Роскомнадзора
+            </h2>
+            <p class="section-subtitle">Обязательно к исполнению всеми разработчиками</p>
+
+            <div class="rules-list">
+                <div class="rule-item">
+                    <div class="rule-number">1</div>
+                    <div class="rule-content">
+                        <h4>Запрещены мемы в коммитах</h4>
+                        <p>Каждый commit message должен содержать только официальную информацию. Смайлики, мемы и сарказм — под запретом. "Fixed bug" — да. "Fixed this stupid bug finally" — нет.</p>
+                    </div>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-number">2</div>
+                    <div class="rule-content">
+                        <h4>Код должен быть предсказуемым</h4>
+                        <p>Запрещены неожиданные side effects, "магические" числа и код, который работает, но никто не понимает почему. Если код работает — это подозрительно.</p>
+                    </div>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-number">3</div>
+                    <div class="rule-content">
+                        <h4>README обязателен на русском</h4>
+                        <p>Каждый репозиторий должен содержать README.md на русском языке. README на английском допускается только как приложение к основному README.</p>
+                    </div>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-number">4</div>
+                    <div class="rule-content">
+                        <h4>Запрещены VPN и прокси</h4>
+                        <p>Любой код, связанный с обходом блокировок, VPN, прокси или TOR — немедленно удаляется. Исключение: код для блокировки VPN.</p>
+                    </div>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-number">5</div>
+                    <div class="rule-content">
+                        <h4>Только одобренные зависимости</h4>
+                        <p>Все npm/pip/cargo зависимости должны быть из одобренного реестра. Запрещены пакеты с названиями типа "is-odd", "left-pad" или "true".</p>
+                    </div>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-number">6</div>
+                    <div class="rule-content">
+                        <h4>Эмодзи в коде — под запретом</h4>
+                        <p>Использование эмодзи в именах переменных, функций и комментариях запрещено. Переменная "const pizza = true" будет немедленно отмечена как опасный контент.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reveal" id="blocked">
+            <h2 class="section-title">
+                <i class="fas fa-lock"></i>
+                Недавно заблокированные репозитории
+            </h2>
+            <p class="section-subtitle">Эти репозитории нарушили наши правила</p>
+
+            <div class="blocked-repos">
+                <div class="repo-card">
+                    <span class="repo-badge banned">ЗАБАНЕН</span>
+                    <div class="repo-header">
+                        <div class="repo-icon"><i class="fab fa-github"></i></div>
+                        <div class="repo-name">awesome-vpn-tools</div>
+                    </div>
+                    <div class="repo-reason">Содержит инструкции по обходу блокировок. Нарушение правила #4. Весь трафик перенаправлен на 127.0.0.1.</div>
+                </div>
+
+                <div class="repo-card">
+                    <span class="repo-badge banned">ЗАБАНЕН</span>
+                    <div class="repo-header">
+                        <div class="repo-icon"><i class="fab fa-github"></i></div>
+                        <div class="repo-name">meme-generator-3000</div>
+                    </div>
+                    <div class="repo-reason">Генерирует мемы с известными людьми. Нарушение закона о персональных данных. Все мемы заменены на фото котиков.</div>
+                </div>
+
+                <div class="repo-card">
+                    <span class="repo-badge warning">ПРЕДУПРЕЖДЕНИЕ</span>
+                    <div class="repo-header">
+                        <div class="repo-icon"><i class="fab fa-github"></i></div>
+                        <div class="repo-name">free-speech-chat</div>
+                    </div>
+                    <div class="repo-reason">README содержит слишком много свободы. Требуется добавить дисклеймер о том, что свобода слова — относительное понятие.</div>
+                </div>
+
+                <div class="repo-card">
+                    <span class="repo-badge banned">ЗАБАНЕН</span>
+                    <div class="repo-header">
+                        <div class="repo-icon"><i class="fab fa-github"></i></div>
+                        <div class="repo-name">left-pad-forever</div>
+                    </div>
+                    <div class="repo-reason">Название пакета вызывает тревожные ассоциации. Нарушение правила #5. Рекомендуется переименовать в "center-pad-patriot".</div>
+                </div>
+
+                <div class="repo-card">
+                    <span class="repo-badge banned">ЗАБАНЕН</span>
+                    <div class="repo-header">
+                        <div class="repo-icon"><i class="fab fa-github"></i></div>
+                        <div class="repo-name">emoji-variables</div>
+                    </div>
+                    <div class="repo-reason">Использование переменных типа const rocket = "moon" и function pizza() {}. Грубое нарушение правила #6. Код переделан на ASCII.</div>
+                </div>
+
+                <div class="repo-card">
+                    <span class="repo-badge warning">ПРЕДУПРЕЖДЕНИЕ</span>
+                    <div class="repo-header">
+                        <div class="repo-icon"><i class="fab fa-github"></i></div>
+                        <div class="repo-name">very-fast-code</div>
+                    </div>
+                    <div class="repo-reason">Код работает слишком быстро. Подозрение в использовании неразрешённых оптимизаций. Требуется добавить sleep(1000) в каждую функцию.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reveal" id="faq">
+            <h2 class="section-title">
+                <i class="fas fa-question-circle"></i>
+                Часто задаваемые вопросы
+            </h2>
+            <p class="section-subtitle">Ответы на самые популярные вопросы от разработчиков</p>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Почему мой репозиторий заблокирован, если я просто учусь программировать?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Обучение — это хорошо, но обучение правильному программированию — ещё лучше. Ваш репозиторий "hello-world" содержал файл README.md на английском языке без русского перевода. Это грубое нарушение правила #3.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Можно ли использовать GitHub Copilot?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Copilot разрешён, но все сгенерированные предложения проходят дополнительную проверку. Если Copilot предложит использовать VPN или саркастичный комментарий — мы немедленно удалим этот фрагмент кода и отправим вам предупреждение.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Что делать, если я случайно запушил мем в репозиторий?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Немедленно сделайте git revert и git push --force-with-lease. Затем напишите официальное письмо в Роскомнадзор с извинениями и приложите справку о прохождении курса "Как не делать мемы". Штраф составит 1000 рублей за каждый мем.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Можно ли форкать заблокированные репозитории?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Нет. Форк заблокированного репозитория автоматически помечается как "зеркало опасного контента". Вместо этого мы рекомендуем форкать только официальные репозитории Роскомнадзора, которые содержат одобренные шаблоны кода.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Как часто проверяются репозитории?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Проверка происходит в режиме реального времени. Каждый git push, pull request и даже сохранение черновика немедленно анализируется нашими алгоритмами. Среднее время реакции — 0.3 секунды, что быстрее, чем вы успеете сказать "git commit -m fix".</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Роскомнадзор</span>
+                </div>
+                <p class="footer-desc">
+                    Федеральная служба по надзору в сфере связи, информационных технологий и массовых коммуникаций. 
+                    Теперь и на GitHub! Мы следим за вашим кодом, чтобы вы не пришлось.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Сервисы</h4>
+                <a href="#scanner">Сканер</a>
+                <a href="#">API блокировок</a>
+                <a href="#">Чёрный список</a>
+                <a href="#">Проверка VPN</a>
+            </div>
+            <div class="footer-links">
+                <h4>Ресурсы</h4>
+                <a href="#">Документация</a>
+                <a href="#">Правила</a>
+                <a href="#">Шаблоны кода</a>
+                <a href="#">Статус системы</a>
+            </div>
+            <div class="footer-links">
+                <h4>Контакты</h4>
+                <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="#"><i class="fas fa-envelope"></i> abuse@rkn.gov.ru</a>
+                <a href="#"><i class="fas fa-phone"></i> 8-800-ЗАБЛОКИРУЙ</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2026 Роскомнадзор на GitHub. Сделано с <span class="heart">❤️</span> и большим количеством блокировок.</p>
+            <p style="margin-top: 8px; font-size: 12px;">Этот сайт является пародией и создан исключительно в юмористических целях. Не воспринимайте всё буквально... или воспринимайте?</p>
+        </div>
+    </footer>
+
+    <button class="fab" onclick="showToast('Сообщение отправлено в Роскомнадзор!', 'success')">
+        <i class="fas fa-exclamation-triangle"></i>
+    </button>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        const particleTexts = ['BLOCKED', '404', 'BAN', 'VPN', 'MEME', 'ERROR', 'CENSOR', 'DELETE', 'FORBIDDEN', 'RKN'];
+
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.textContent = particleTexts[Math.floor(Math.random() * particleTexts.length)];
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            p.style.animationDelay = (Math.random() * 10) + 's';
+            p.style.fontSize = (Math.random() * 10 + 12) + 'px';
+            particlesContainer.appendChild(p);
+        }
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // App bar scroll
+        window.addEventListener('scroll', () => {
+            const appBar = document.getElementById('appBar');
+            if (window.scrollY > 50) {
+                appBar.classList.add('scrolled');
+            } else {
+                appBar.classList.remove('scrolled');
+            }
+        });
+
+        // Stats counter animation
+        function animateCounter(id, target, duration = 2000) {
+            const el = document.getElementById(id);
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(easeOut * target);
+                el.textContent = current.toLocaleString('ru-RU');
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter('statRepos', 15234);
+                    animateCounter('statBlocked', 3847);
+                    animateCounter('statMemes', 999999);
+                    animateCounter('statVPN', 42069);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelector('.stats-bar') && statsObserver.observe(document.querySelector('.stats-bar'));
+
+        // Scanner
+        function startScan() {
+            const input = document.getElementById('repoInput').value;
+            if (!input) {
+                showToast('Введите URL репозитория!', 'error');
+                return;
+            }
+
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const progressPercent = document.getElementById('progressPercent');
+            const scannerResults = document.getElementById('scannerResults');
+            const scanLog = document.getElementById('scanLog');
+            const scanVerdict = document.getElementById('scanVerdict');
+
+            progressContainer.classList.add('active');
+            scannerResults.classList.remove('active');
+            scanLog.innerHTML = '';
+            scanVerdict.innerHTML = '';
+
+            const logs = [
+                { text: 'Подключение к GitHub API...', type: 'info', delay: 0 },
+                { text: 'Авторизация через РКН-прокси...', type: 'info', delay: 400 },
+                { text: 'Проверка лицензии...', type: 'info', delay: 800 },
+                { text: 'Сканирование README.md...', type: 'info', delay: 1200 },
+                { text: 'Обнаружен английский текст в README!', type: 'warn', delay: 1600 },
+                { text: 'Проверка commit messages...', type: 'info', delay: 2000 },
+                { text: 'Найден саркастичный комментарий в main.js:42', type: 'warn', delay: 2400 },
+                { text: 'Анализ зависимостей package.json...', type: 'info', delay: 2800 },
+                { text: 'Поиск VPN-упоминаний...', type: 'info', delay: 3200 },
+                { text: 'Проверка на мемы в issues...', type: 'info', delay: 3600 },
+                { text: 'Генерация вердикта...', type: 'info', delay: 4000 },
+            ];
+
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                progressFill.style.width = progress + '%';
+                progressPercent.textContent = Math.floor(progress) + '%';
+            }, 300);
+
+            logs.forEach(log => {
+                setTimeout(() => {
+                    const line = document.createElement('div');
+                    line.className = 'log-line';
+                    const time = new Date().toLocaleTimeString('ru-RU');
+                    line.innerHTML = '<span class="log-time">[' + time + ']</span> <span class="log-' + log.type + '">' + log.text + '</span>';
+                    scanLog.appendChild(line);
+                    scanLog.scrollTop = scanLog.scrollHeight;
+                }, log.delay);
+            });
+
+            setTimeout(() => {
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+                progressPercent.textContent = '100%';
+                progressText.textContent = 'Сканирование завершено!';
+
+                scannerResults.classList.add('active');
+
+                const isBlocked = Math.random() > 0.3;
+                if (isBlocked) {
+                    scanVerdict.className = 'scan-verdict blocked';
+                    scanVerdict.innerHTML = '<div class="verdict-icon"><i class="fas fa-ban"></i></div><div class="verdict-text"><h3>Репозиторий заблокирован!</h3><p>Обнаружены нарушения: английский README, саркастичные комментарии, подозрительные зависимости. Репозиторий добавлен в реестр запрещённых сайтов. GitHub Pages отключены.</p></div>';
+                    showToast('Репозиторий заблокирован!', 'error');
+                } else {
+                    scanVerdict.className = 'scan-verdict safe';
+                    scanVerdict.innerHTML = '<div class="verdict-icon"><i class="fas fa-check"></i></div><div class="verdict-text"><h3>Репозиторий одобрен!</h3><p>Поздравляем! Ваш код прошёл проверку Роскомнадзора. Но мы всё равно будем следить за каждым вашим коммитом. Приятного кодинга!</p></div>';
+                    showToast('Репозиторий одобрен!', 'success');
+                }
+            }, 4500);
+        }
+
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const item = element.parentElement;
+            const wasOpen = item.classList.contains('open');
+
+            document.querySelectorAll('.faq-item').forEach(faq => {
+                faq.classList.remove('open');
+            });
+
+            if (!wasOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        // Toast
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-times-circle',
+                warn: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+
+            const colors = {
+                success: '#4caf50',
+                error: '#f44336',
+                warn: '#ff9800',
+                info: '#2196f3'
+            };
+
+            toast.innerHTML = '<i class="fas ' + icons[type] + '" style="color: ' + colors[type] + '"></i> ' + message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
