@@ -29,6 +29,6 @@
 
 Просто открой `index.html` в браузере или залей на GitHub Pages:
 ```bash
-git clone https://github.com/yourusername/roskomnadzor-github.git
-cd roskomnadzor-github
-# Открой index.html или запушь на gh-pages
+git clone https://github.com/roskommnadzor/RKN.git
+
+
