@@ -4,7 +4,7 @@
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen?logo=github)](https://yourusername.github.io/roskomnadzor-github)
 [![Made with](https://img.shields.io/badge/Made%20with-Material%20Design-blue?logo=material-design)](https://material.io)
-[![License](https://img.shields.io/badge/License-GPL--2.0%20only-red)](LICENSE)
+[![License](https://img.shields.io/badge/License-AGPL--v3.0-red)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-%D0%97%D0%B0%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BE-critical)](https://rkn.gov.ru)
 
 <img width="1902" height="1079" alt="image" src="https://github.com/user-attachments/assets/7a86b968-bdab-468a-9045-51f340b9b5b3" />
